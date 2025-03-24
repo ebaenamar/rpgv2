@@ -2,6 +2,7 @@ import ai21
 import json
 import os
 from typing import List, Dict, Any
+from api.game.scoring_agent import ScoringAgent
 
 class GameOrchestrator:
     def __init__(self, api_key):
@@ -15,11 +16,16 @@ class GameOrchestrator:
             },
             "skills": {},
             "experience": 0,
+            "score": 0,
+            "feedback_history": []
         }
         self.agent_state = {
             "trust": 50,  # 0-100
             "recent_actions": [],
         }
+        
+        # Initialize the scoring agent
+        self.scoring_agent = ScoringAgent(api_key)
         
         # Load scenes from JSON file
         self.scenes = self._load_scenes()
@@ -136,8 +142,10 @@ class GameOrchestrator:
                 "D) Rest and consider your options."
             ]
     
-    def update_player_state(self, scene_id: str, choice_index: int) -> None:
-        """Update player state based on their choice"""
+    def update_player_state(self, scene_id: str, choice_index: int) -> Dict[str, Any]:
+        """
+        Update player state based on their choice and return scoring information
+        """
         # Define the impact of choices on alignment and trust
         # This would be more sophisticated in a full implementation
         choice_impacts = {
@@ -183,3 +191,25 @@ class GameOrchestrator:
                 
         # Award experience
         self.player_state["experience"] += 10
+        
+        # Use the scoring agent to evaluate the player's choice
+        scoring_result = self.scoring_agent.score_choice(scene_id, choice_index, self.player_state)
+        
+        # Update player score
+        self.player_state["score"] += scoring_result.get("total", 5)
+        
+        # Add feedback to history
+        if "feedback" in scoring_result:
+            feedback_entry = {
+                "scene_id": scene_id,
+                "choice_index": choice_index,
+                "feedback": scoring_result["feedback"],
+                "scores": {k: v for k, v in scoring_result.items() if k != "feedback"}
+            }
+            self.player_state["feedback_history"].append(feedback_entry)
+            
+            # Keep only the 10 most recent feedback entries
+            if len(self.player_state["feedback_history"]) > 10:
+                self.player_state["feedback_history"] = self.player_state["feedback_history"][-10:]
+        
+        return scoring_result
