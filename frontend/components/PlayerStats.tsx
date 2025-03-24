@@ -51,20 +51,64 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ alignment, experience, score,
       <div className="grid grid-cols-2 gap-4 mb-4">
         <div>
           <h3 className="font-semibold text-gray-400">Experience</h3>
-          <p className="text-lg">{experience}</p>
+          <div className="flex items-center">
+            <p className="text-lg mr-2">{experience}</p>
+            <div className="w-full bg-gray-700 rounded-full h-2.5">
+              <div 
+                className="bg-blue-500 h-2.5 rounded-full" 
+                style={{ width: `${Math.min(100, (experience / 100) * 100)}%` }}
+              ></div>
+            </div>
+          </div>
         </div>
         <div>
           <h3 className="font-semibold text-gray-400">Score</h3>
-          <p className="text-lg">{score}</p>
+          <div className="flex items-center">
+            <p className="text-lg mr-2">{Math.round(score)}</p>
+            <div className="w-full bg-gray-700 rounded-full h-2.5">
+              <div 
+                className="bg-green-500 h-2.5 rounded-full" 
+                style={{ width: `${Math.min(100, (score / 100) * 100)}%` }}
+              ></div>
+            </div>
+          </div>
         </div>
       </div>
       
       {feedback && (
         <div className="mt-4 border-t border-gray-700 pt-3">
           <h3 className="font-semibold text-gray-400 mb-2">Feedback</h3>
-          <p className="text-sm italic">{feedback}</p>
+          <div className="p-3 bg-gray-700 rounded-lg">
+            <p className="text-sm italic">{feedback}</p>
+          </div>
         </div>
       )}
+      
+      {/* Alignment Chart Visualization */}
+      <div className="mt-4 border-t border-gray-700 pt-3">
+        <h3 className="font-semibold text-gray-400 mb-2">Alignment Chart</h3>
+        <div className="relative w-full h-32 bg-gray-700 rounded-lg overflow-hidden">
+          {/* Vertical axis line */}
+          <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-gray-600"></div>
+          {/* Horizontal axis line */}
+          <div className="absolute left-0 right-0 top-1/2 h-0.5 bg-gray-600"></div>
+          
+          {/* Labels */}
+          <div className="absolute top-1 left-1 text-xs text-gray-400">Lawful Good</div>
+          <div className="absolute top-1 right-1 text-xs text-gray-400">Lawful Evil</div>
+          <div className="absolute bottom-1 left-1 text-xs text-gray-400">Chaotic Good</div>
+          <div className="absolute bottom-1 right-1 text-xs text-gray-400">Chaotic Evil</div>
+          
+          {/* Character position marker */}
+          <div 
+            className="absolute w-3 h-3 bg-yellow-500 rounded-full transform -translate-x-1/2 -translate-y-1/2"
+            style={{ 
+              left: `${50 + (alignment.law_chaos / 100) * 50}%`, 
+              top: `${50 + (alignment.good_evil / 100) * 50}%` 
+            }}
+          ></div>
+        </div>
+      </div>
     </div>
   );
 };
