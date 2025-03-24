@@ -17,6 +17,8 @@ export default function Home() {
   const [sceneImage, setSceneImage] = useState('');
   const [audioUrl, setAudioUrl] = useState('');
   const [gameStarted, setGameStarted] = useState(false);
+  const [nextSceneId, setNextSceneId] = useState('');
+  const [showContinue, setShowContinue] = useState(false);
   
   // Start the game
   const startGame = async () => {
@@ -53,10 +55,12 @@ export default function Home() {
       setAgentResponse(response.data.agent_response);
       setAudioUrl(response.data.audio_url);
       
-      // Move to next scene after delay
-      setTimeout(() => {
-        fetchScene(response.data.next_scene_id);
-      }, 6000); // Give time to hear/read the response
+      // Don't automatically move to the next scene
+      // Instead, show a continue button after the response
+      setLoading(false);
+      
+      // Store the next scene ID for when the player continues
+      setNextSceneId(response.data.next_scene_id);
     } catch (error) {
       console.error('Error making choice:', error);
       setLoading(false);
@@ -95,11 +99,27 @@ export default function Home() {
             />
             
             {agentResponse && (
-              <CharacterResponse 
-                response={agentResponse} 
-                audioUrl={audioUrl} 
-                characterName="Ser Elyen"
-              />
+              <div className="mb-6">
+                <CharacterResponse 
+                  response={agentResponse} 
+                  audioUrl={audioUrl} 
+                  characterName="Ser Elyen"
+                />
+                
+                {/* Add continue button after character response */}
+                <div className="mt-6 text-center">
+                  <button 
+                    onClick={() => {
+                      setAgentResponse('');
+                      setAudioUrl('');
+                      fetchScene(nextSceneId);
+                    }}
+                    className="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+                  >
+                    Continue Your Journey
+                  </button>
+                </div>
+              </div>
             )}
             
             {!agentResponse && (
