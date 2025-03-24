@@ -36,12 +36,17 @@ voice = None
 async def startup_event():
     global orchestrator, rag, agent, visualizer, voice
     
+    print("Starting RPG Maestro API with Maestro character agent")
+    
     # Initialize components
     orchestrator = GameOrchestrator(api_key=os.getenv("AI21_API_KEY"))
+    
     rag = RAGRetriever(
         index_path="data/faiss_index",
         documents_path="data/historical_documents.json"
     )
+    
+    # Use Maestro Character Agent for more reliable responses
     agent = MaestroCharacterAgent(
         character_profile={
             "name": "Ser Elyen",
@@ -50,7 +55,11 @@ async def startup_event():
         },
         api_key=os.getenv("AI21_API_KEY")
     )
+    
+    # Initialize image generation with Replicate
     visualizer = SceneVisualizer(api_key=os.getenv("REPLICATE_API_TOKEN"))
+    
+    # Initialize voice synthesis
     voice = SesameVoice(api_key=os.getenv("SESAME_API_KEY"))
 
 # Game state

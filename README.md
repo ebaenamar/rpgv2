@@ -2,6 +2,16 @@
 
 An agentic RPG game system powered by AI21 Labs' Maestro framework, featuring dynamic storytelling, historical context via RAG, moral decision-making, and an interactive LLM-driven NPC. The game includes scene visualization with Replicate and voice synthesis with Sesame Maya.
 
+## Game Objectives
+
+Before starting the game, players are presented with the following objectives:
+
+- Navigate the medieval world while making choices that align with your character's moral compass
+- Build relationships with NPCs to gain allies and information
+- Discover the truth behind the mysterious events in the kingdom
+- Develop your character's skills and abilities through your choices
+- Balance your character's alignment between good/evil and lawful/chaotic
+
 ## Project Structure
 
 ```
@@ -101,16 +111,51 @@ rpg_maestro/
 5. Add your environment variables (API keys) in the Render dashboard
 6. Deploy the service
 
-### Frontend Deployment
+### Frontend Deployment (Vercel)
 
-1. Build the frontend for production:
+1. Push your code to GitHub:
    ```
-   cd frontend
-   npm run build
+   git add .
+   git commit -m "chore: deploy memories"
+   git push
    ```
 
-2. Deploy the frontend to your preferred hosting service (Vercel, Netlify, etc.)
-3. Set the environment variable `NEXT_PUBLIC_API_URL` to your Render backend URL
+2. Connect your GitHub repository to Vercel:
+   - Sign in to Vercel and click 'Add New Project'
+   - Select your repository
+   - Configure the project:
+     - Framework Preset: Next.js
+     - Root Directory: frontend
+     - Build Command: npm run build
+     - Output Directory: .next
+
+3. Add environment variables in the Vercel dashboard:
+   ```
+   NEXT_PUBLIC_API_URL=https://your-backend-api-url.com
+   ```
+
+4. Deploy the project
+
+5. After deployment, your frontend will be available at the Vercel-assigned URL
+
+### Testing Before Deployment
+
+To ensure everything works correctly before deploying to Vercel:
+
+1. Run the integration test script:
+   ```
+   ./test_integration.sh
+   ```
+
+2. Verify that the frontend and backend communicate properly:
+   - Start a new game
+   - Make choices and check that the scoring system works
+   - Verify character responses and scene transitions
+
+3. Check the Docker container logs for any errors:
+   ```
+   docker logs rpg-maestro-api-test
+   ```
 
 ## License
 
