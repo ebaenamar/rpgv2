@@ -107,10 +107,23 @@ async def get_scene(scene_id: str):
         historical_context=historical_context[0]["text"] if historical_context else ""
     )
     
+    # Format historical context for frontend display
+    formatted_historical_context = [
+        {"title": doc["title"], "content": doc["text"]}
+        for doc in historical_context
+    ] if historical_context else []
+    
     return {
         "scene": scene,
         "choices": choices,
-        "image_url": image_url
+        "image_url": image_url,
+        "historical_context": formatted_historical_context,
+        "player_state": {
+            "alignment": orchestrator.player_state["alignment"],
+            "experience": orchestrator.player_state["experience"],
+            "score": orchestrator.player_state["score"],
+            "skills": orchestrator.player_state["skills"]
+        }
     }
 
 @app.post("/api/action")
@@ -144,11 +157,18 @@ async def process_action(request: ActionRequest):
     # Get next scene ID
     next_scene_id = scene["next_scene_map"][list("ABCD")[request.choice_index]]
     
+    # Format historical context for frontend display
+    formatted_historical_context = [
+        {"title": doc["title"], "content": doc["text"]}
+        for doc in historical_context
+    ] if historical_context else []
+    
     return {
         "agent_response": agent_response,
         "audio_url": audio_url,
         "next_scene_id": next_scene_id,
         "scoring": scoring_result,
+        "historical_context": formatted_historical_context,
         "player_state": {
             "alignment": orchestrator.player_state["alignment"],
             "experience": orchestrator.player_state["experience"],
