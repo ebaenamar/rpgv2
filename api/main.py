@@ -6,11 +6,11 @@ from dotenv import load_dotenv
 import uvicorn
 
 # Import our game components
-from game.orchestrator import GameOrchestrator
-from game.rag import RAGRetriever
-from game.agent import MaestroCharacterAgent
-from game.visualizer import SceneVisualizer
-from game.voice import SesameVoice
+from api.game.orchestrator import GameOrchestrator
+from api.game.rag import RAGRetriever
+from api.game.agent import MaestroCharacterAgent
+from api.game.visualizer import SceneVisualizer
+from api.game.voice import SesameVoice
 
 load_dotenv()
 
@@ -131,4 +131,4 @@ async def process_action(request: ActionRequest):
     }
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("api.main:app", host="0.0.0.0", port=8000, reload=True)

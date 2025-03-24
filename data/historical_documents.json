@@ -1,0 +1,32 @@
+[
+  {
+    "id": "doc1",
+    "title": "The Fall of Valoria",
+    "text": "In the year 1243, the kingdom of Valoria fell to the invading forces of the Eastern Empire. The once-proud castle walls crumbled under the assault of the empire's siege engines, and King Aldric was forced to surrender after a three-month siege. The fall marked the end of the Valorian dynasty that had ruled the region for over three centuries.",
+    "metadata": {
+      "region": "valoria",
+      "period": "medieval",
+      "type": "historical"
+    }
+  },
+  {
+    "id": "doc2",
+    "title": "The Code of Chivalry",
+    "text": "The Code of Chivalry, as established by the Knights of the Silver Hand, consists of seven virtues: courage, justice, mercy, generosity, faith, nobility, and hope. Knights who break this code are stripped of their titles and banished from the realm. The most severe punishment is reserved for those who betray their liege lord, a crime punishable by death.",
+    "metadata": {
+      "region": "silverkeep",
+      "period": "medieval",
+      "type": "cultural"
+    }
+  },
+  {
+    "id": "doc3",
+    "title": "The Plague of Darkwater",
+    "text": "The Plague of Darkwater swept through the coastal villages in 1312, claiming thousands of lives. The disease was characterized by dark spots on the skin and a high fever. Local healers discovered that a potion made from the rare moonflower could slow the disease's progress, though no true cure was ever found. The plague eventually burned itself out after claiming nearly a third of the population.",
+    "metadata": {
+      "region": "darkwater",
+      "period": "medieval",
+      "type": "historical"
+    }
+  }
+]

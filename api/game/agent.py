@@ -1,9 +1,10 @@
-from ai21 import AI21Client
+import ai21
 from typing import List, Dict, Any
 
 class MaestroCharacterAgent:
     def __init__(self, character_profile: Dict[str, Any], api_key: str):
-        self.client = AI21Client(api_key=api_key)
+        # Set the API key for the ai21 module
+        ai21.api_key = api_key
         self.character_profile = character_profile
         self.memory = {
             "name": character_profile["name"],

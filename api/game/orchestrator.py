@@ -1,11 +1,12 @@
-from ai21 import AI21Client
+import ai21
 import json
 import os
 from typing import List, Dict, Any
 
 class GameOrchestrator:
     def __init__(self, api_key):
-        self.client = AI21Client(api_key=api_key)
+        # Set the API key for the ai21 module
+        ai21.api_key = api_key
         self.current_scene = None
         self.player_state = {
             "alignment": {
