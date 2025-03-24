@@ -3,8 +3,8 @@ from typing import List, Dict, Any
 
 class MaestroCharacterAgent:
     def __init__(self, character_profile: Dict[str, Any], api_key: str):
-        # Set the API key for the ai21 module
-        ai21.api_key = api_key
+        # Initialize the AI21 client with the API key
+        self.client = ai21.AI21Client(api_key=api_key)
         self.character_profile = character_profile
         self.memory = {
             "name": character_profile["name"],
@@ -98,7 +98,7 @@ Respond as {self.character_profile['name']}, providing your reaction to the play
                 ]
             )
             
-            return run_result.output
+            return run_result.result
             
         except Exception as e:
             print(f"Error generating character response: {e}")

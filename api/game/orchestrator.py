@@ -5,8 +5,8 @@ from typing import List, Dict, Any
 
 class GameOrchestrator:
     def __init__(self, api_key):
-        # Set the API key for the ai21 module
-        ai21.api_key = api_key
+        # Initialize the AI21 client with the API key
+        self.client = ai21.AI21Client(api_key=api_key)
         self.current_scene = None
         self.player_state = {
             "alignment": {
@@ -86,6 +86,7 @@ class GameOrchestrator:
             
         # Otherwise, generate choices with Maestro
         try:
+            # Use Maestro API with requirements
             run_result = self.client.beta.maestro.runs.create_and_poll(
                 input=f"Generate 4 player choices for this medieval RPG scene:\n\nScene: {scene_context}\n\nHistorical context:\n{historical_facts}",
                 requirements=[
@@ -107,8 +108,8 @@ class GameOrchestrator:
                 ]
             )
             
-            # Parse the choices from the output
-            choices = run_result.output.split("\n")
+            # Parse the choices from the result
+            choices = run_result.result.split("\n")
             # Filter out any non-choice lines
             choices = [c for c in choices if c.startswith("A)") or c.startswith("B)") or 
                       c.startswith("C)") or c.startswith("D)")]
