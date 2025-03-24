@@ -2,8 +2,10 @@ import React from 'react';
 
 interface HistoricalFactsProps {
   facts: Array<{
-    title: string;
-    content: string;
+    title?: string;
+    content?: string;
+    text?: string;
+    source?: string;
   }>;
 }
 
@@ -19,8 +21,8 @@ const HistoricalFacts: React.FC<HistoricalFactsProps> = ({ facts }) => {
       <div className="space-y-4">
         {facts.map((fact, index) => (
           <div key={index} className="mb-3">
-            <h3 className="font-semibold text-yellow-500">{fact.title}</h3>
-            <p className="text-sm text-gray-300">{fact.content}</p>
+            <h3 className="font-semibold text-yellow-500">{fact.title || fact.source}</h3>
+            <p className="text-sm text-gray-300">{fact.content || fact.text}</p>
           </div>
         ))}
       </div>
